@@ -3,8 +3,8 @@
 #include <string.h>
 
 int main(void){
-	int arr[] = {1,3,7,8,10};
-	int sum = 29, i, j, n=5;
+	int arr[] = {2,3,5,6,8,10};
+	int sum = 10, i, j, n=6;
 
 	// Initialize the array
 
@@ -13,10 +13,10 @@ int main(void){
 	for(i=0;i<n+1;i++){
 		for(j=0;j<sum+1;j++){
 			if(i==0){
-				memo[i][j] = 1;
+				memo[i][j] = 0;
 			}
 			if(j==0){
-				memo[i][j] = 0;
+				memo[i][j] = 1;
 			}
 			if(i!=0 && j!=0){
 				memo[i][j] = -1;
@@ -28,7 +28,7 @@ int main(void){
 
 	for(i=0;i<n+1;i++){
 		for(j=0;j<sum+1;j++){
-			printf("%d ", memo[i][j]);
+			printf("%d\t", memo[i][j]);
 		}
 		printf("\n");
 	}	
@@ -39,12 +39,7 @@ int main(void){
 			if(arr[n-i]<=sum){
 				int soln1 = memo[i-1][j-arr[i-1]];
 				int soln2 = memo[i-1][j];
-				if (soln1==0 || soln2==0){
-					memo[i][j] = 0;
-				}
-				else{
-					memo[i][j] = 1;
-				}
+				memo[i][j] = soln1 + soln2;
 			}
 			else{
 				memo[i][j] = memo[i-1][j];
@@ -54,19 +49,16 @@ int main(void){
 
 	printf("Result\n");
 
+	int count = 0;
+
 	for(i=0;i<n+1;i++){
 		for(j=0;j<sum+1;j++){
-			printf("%d ", memo[i][j]);
+			printf("%d\t", memo[i][j]);
 		}
 		printf("\n");
 	}
 
-	if (memo[n][sum]==0){
-		printf("Subset possible!\n");
-	}
-	else{
-		printf("Sum not possible!\n");
-	}
+	printf("Count of sequences with sum as '%d' is '%d'\n", sum, memo[n][sum]);
 
 	return 0;
 }
